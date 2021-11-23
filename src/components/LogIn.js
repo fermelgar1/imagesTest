@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import {
   Text,
   View,
@@ -16,13 +16,17 @@ import {
 } from '../redux/imagesDucks'
 
 const LogIn = ({navigation}) => {
+  const initialData = {user: '', password: ''}
   const dispatch = useDispatch()
   const imagesApi = useSelector(store => store.images)
-  const [credentials, setCredentials] = useState({user: '', password: ''})
-  useEffect(() => {
-    dispatch(getLocalTokenAction())
+  const [credentials, setCredentials] = React.useState(initialData)
+  React.useEffect(() => {
     navigation.addListener('focus', () => {
       dispatch(getLocalTokenAction())
+    })
+  }, [navigation])
+  React.useEffect(() => {
+    navigation.addListener('focus', () => {
       if (imagesApi.token) {
         navigation.navigate('Images')
       }
@@ -44,6 +48,7 @@ const LogIn = ({navigation}) => {
   }
 
   const handleTouch = () => {
+    setCredentials(initialData)
     dispatch(getWebTokenAction(credentials))
     navigation.navigate('Images')
   }

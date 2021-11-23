@@ -23,6 +23,9 @@ const ImagesApi = ({navigation}) => {
 
   React.useEffect(() => {
     dispatch(getLocalTokenAction())
+  }, [])
+
+  React.useEffect(() => {
     if (!imagesApi.token) {
       navigation.navigate('LogIn')
     } else {
@@ -60,7 +63,9 @@ const ImagesApi = ({navigation}) => {
           ))}
         </ScrollView>
       </View>
-      <TouchableOpacity onPress={() => logOut()} style={Styles.bottom}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('LogIn')}
+        style={Styles.bottom}>
         <Text>Home</Text>
       </TouchableOpacity>
     </SafeAreaView>

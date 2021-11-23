@@ -48,7 +48,6 @@ const getImagesAction =
         payload: response.data.results,
       })
     } catch (error) {
-      console.log(`error ${error}, ${initialData}`)
       dispatch({
         type: GET_LOCAL_TOKEN_ERROR,
         payload: {...initialData},

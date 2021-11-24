@@ -11,8 +11,8 @@ const Main = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="LogIn" component={LogIn} />
         <Stack.Screen name="Images" component={ImagesApi} />
+        <Stack.Screen name="LogIn" component={LogIn} />
       </Stack.Navigator>
     </NavigationContainer>
   )

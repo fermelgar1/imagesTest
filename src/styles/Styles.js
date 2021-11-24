@@ -15,6 +15,10 @@ const Styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  tinyLogo: {
+    width: 50,
+    height: 50,
+  },
   topLogin: {
     flex: 1,
     paddingTop: 150,

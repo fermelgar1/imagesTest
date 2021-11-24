@@ -11,13 +11,6 @@ const GET_IMAGES_ERROR = 'GET_IMAGES_ERROR'
 const GET_LOCAL_TOKEN_SUCCESS = 'GET_LOCALTOKEN_SUCCESS'
 const GET_LOCAL_TOKEN_ERROR = 'GET_LOCALTOKEN_ERROR'
 
-const getLocalToken = async () => {
-  try {
-    if (!token) {
-    }
-  } catch (error) {}
-}
-
 const imageReducer = (state = initialData, action) => {
   switch (action.type) {
     case GET_IMAGES_SUCCESS:
@@ -41,13 +34,17 @@ const getImagesAction =
         })
       }
       const response = await axios.get(
-        'https://pokeapi.co/api/v2/pokemon?offset=0&limit=20',
+        'https://challenge.maniak.co/api/images',
+        {
+          headers: {'Authorization': `Bearer ${token}`},
+        },
       )
       dispatch({
         type: GET_IMAGES_SUCCESS,
-        payload: response.data.results,
+        payload: response.data,
       })
     } catch (error) {
+      console.log(`error 1`, error)
       dispatch({
         type: GET_LOCAL_TOKEN_ERROR,
         payload: {...initialData},
@@ -68,6 +65,7 @@ const getLocalTokenAction = () => async (dispatch, getState) => {
       type: GET_LOCAL_TOKEN_ERROR,
     })
   } catch (error) {
+    console.log(`error 2`, error)
     dispatch({
       type: GET_LOCAL_TOKEN_ERROR,
     })
@@ -75,12 +73,14 @@ const getLocalTokenAction = () => async (dispatch, getState) => {
 }
 const getWebTokenAction = credentials => async (dispatch, getState) => {
   try {
-    // const tokenResponse = await axios.post('challenge.maniak.co/api/login', {
-    //   username: 'challenge@maniak.co',
-    //   password: 'maniak2020',
-    // })
-    // console.log(`tokenResponse`, tokenResponse)
-    const token = '3423423'
+    const tokenResponse = await axios.post(
+      'https://challenge.maniak.co/api/login',
+      {
+        username: credentials.user,
+        password: credentials.password,
+      },
+    )
+    const token = tokenResponse.data.token
     if (token) {
       setLocalToken(token)
       dispatch({
@@ -89,7 +89,7 @@ const getWebTokenAction = credentials => async (dispatch, getState) => {
       })
     }
   } catch (error) {
-    console.log(`error`, error)
+    console.log(`error 3`, error)
     dispatch({
       type: GET_LOCAL_TOKEN_ERROR,
     })
@@ -103,6 +103,7 @@ const deleteLocalTokenAction = () => async (dispatch, getState) => {
       type: GET_LOCAL_TOKEN_ERROR,
     })
   } catch (error) {
+    console.log(`error 4`, error)
     dispatch({
       type: GET_LOCAL_TOKEN_ERROR,
     })
@@ -113,6 +114,7 @@ const setLocalToken = async token => {
   try {
     await AsyncStorage.setItem('token', token)
   } catch (error) {
+    console.log(`error 5`, error)
     dispatch({
       type: GET_LOCAL_TOKEN_ERROR,
     })

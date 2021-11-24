@@ -50,6 +50,7 @@ const Styles = StyleSheet.create({
   },
   itemContainer: {
     marginVertical: 5,
+    flex: 1,
     flexDirection: 'row',
   },
   imageContainer: {
